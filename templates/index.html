@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plant Growth Prediction</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #2E8B57;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 300px;
+    }
+
+    label {
+      margin: 10px 0 5px;
+    }
+
+    input,
+    select {
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+
+    .submit-button {
+      background-color: #2E8B57;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .submit-button:hover {
+      background-color: #3CB371;
+    }
+
+    #prediction {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #2E8B57;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Plant Growth Prediction</h1>
+  <form id="predictionForm">
+
+    <label for="Soil_Type">Soil Type:</label>
+    <select id="Soil_Type" name="Soil_Type" required>
+      <option value="">Select Soil Type</option>
+      <option value="Clay">Clay</option>
+      <option value="Sandy">Sandy</option>
+      <option value="Loamy">Loamy</option>
+      <option value="Peaty">Peaty</option>
+    </select>
+
+    <label for="Sunlight_Hours">Sunlight Hours:</label>
+    <input type="text" id="Sunlight_Hours" name="Sunlight_Hours" required>
+
+    <label for="Water_Frequency">Water Frequency:</label>
+    <select id="Water_Frequency" name="Water_Frequency" required>
+      <option value="">Select Water Frequency</option>
+      <option value="Daily">Daily</option>
+      <option value="Weekly">Weekly</option>
+      <option value="Biweekly">Biweekly</option>
+    </select>
+
+    <label for="Fertilizer_Type">Fertilizer Type:</label>
+    <select id="Fertilizer_Type" name="Fertilizer_Type" required>
+      <option value="">Select Fertilizer Type</option>
+      <option value="Organic">Organic</option>
+      <option value="Inorganic">Inorganic</option>
+    </select>
+
+    <label for="Temperature">Temperature (°C):</label>
+    <input type="text" id="Temperature" name="Temperature" required>
+
+    <label for="Humidity">Humidity (%):</label>
+    <input type="text" id="Humidity" name="Humidity" required>
+
+    <input type="submit" value="Predict" class="submit-button">
+  </form>
+
+  <div id="prediction"></div>
+
+  <script>
+    document.getElementById('predictionForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const formData = new FormData(event.target);
+      const data = {};
+
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+
+      fetch('/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(result => {
+          if (result.prediction == 0) {
+            value = "Can't reach the growth milestone";
+          } else {
+            value = "Can reach the growth milestone";
+          }
+          document.getElementById('prediction').innerText = 'Prediction: ' + value;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          document.getElementById('prediction').innerText = 'An error occurred during prediction';
+        });
+    });
+  </script>
+
+</body>
+
+</html>
