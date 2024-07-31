@@ -62,7 +62,6 @@
       <option value="Clay">Clay</option>
       <option value="Sandy">Sandy</option>
       <option value="Loamy">Loamy</option>
-      <option value="Peaty">Peaty</option>
     </select>
 
     <label for="Sunlight_Hours">Sunlight Hours:</label>
@@ -79,15 +78,16 @@
     <label for="Fertilizer_Type">Fertilizer Type:</label>
     <select id="Fertilizer_Type" name="Fertilizer_Type" required>
       <option value="">Select Fertilizer Type</option>
+      <option value="None">None</option>
       <option value="Organic">Organic</option>
       <option value="Inorganic">Inorganic</option>
     </select>
 
     <label for="Temperature">Temperature (°C):</label>
-    <input type="text" id="Temperature" name="Temperature" required>
+    <input type="number" id="Temperature" name="Temperature" required>
 
     <label for="Humidity">Humidity (%):</label>
-    <input type="text" id="Humidity" name="Humidity" required>
+    <input type="number" id="Humidity" name="Humidity" required>
 
     <input type="submit" value="Predict" class="submit-button">
   </form>
